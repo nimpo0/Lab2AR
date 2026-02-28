@@ -4,7 +4,6 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 
 let camera, scene, renderer
 let controls
-
 let dodecaMesh, ringMesh, tetraMesh
 
 init()
@@ -14,10 +13,8 @@ function init() {
   const container = document.createElement('div')
   document.body.appendChild(container)
 
-  // Scene
   scene = new THREE.Scene()
 
-  // Camera
   camera = new THREE.PerspectiveCamera(
     70,
     window.innerWidth / window.innerHeight,
@@ -26,14 +23,12 @@ function init() {
   )
   camera.position.z = 3
 
-  // Renderer
   renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true })
   renderer.setPixelRatio(window.devicePixelRatio)
   renderer.setSize(window.innerWidth, window.innerHeight)
   renderer.xr.enabled = true
   container.appendChild(renderer.domElement)
 
-  // Light
   const directionalLight = new THREE.DirectionalLight(0xffffff, 3.5)
   directionalLight.position.set(3, 3, 3)
   scene.add(directionalLight)
@@ -45,7 +40,7 @@ function init() {
   const ambientLight = new THREE.AmbientLight(0xffffff, 1.1)
   scene.add(ambientLight)
 
-  // ===== 1) DodecahedronGeometry =====
+  // DodecahedronGeometry
   const dodecaGeo = new THREE.DodecahedronGeometry(0.55, 0)
   const dodecaMat = new THREE.MeshPhysicalMaterial({
     color: 0x4dd0e1,
@@ -55,10 +50,10 @@ function init() {
     clearcoatRoughness: 0.2,
   })
   dodecaMesh = new THREE.Mesh(dodecaGeo, dodecaMat)
-  dodecaMesh.position.set(-1.2, 0, -1.4) // трохи “вперед” від камери
+  dodecaMesh.position.set(-1.2, 0, -1.4)
   scene.add(dodecaMesh)
 
-  // ===== 2) RingGeometry =====
+  // RingGeometry
   const ringGeo = new THREE.RingGeometry(0.25, 0.55, 64)
   const ringMat = new THREE.MeshStandardMaterial({
     color: 0xff6f00,
@@ -70,10 +65,10 @@ function init() {
   })
   ringMesh = new THREE.Mesh(ringGeo, ringMat)
   ringMesh.position.set(0, 0.1, -1.2)
-  ringMesh.rotation.x = Math.PI / 2 // щоб “стояло” як кільце у просторі
+  ringMesh.rotation.x = Math.PI / 2
   scene.add(ringMesh)
 
-  // ===== 3) TetrahedronGeometry =====
+  // TetrahedronGeometry
   const tetraGeo = new THREE.TetrahedronGeometry(0.55, 0)
   const tetraMat = new THREE.MeshStandardMaterial({
     color: 0x7c4dff,
@@ -84,14 +79,13 @@ function init() {
   tetraMesh.position.set(1.2, -0.05, -1.5)
   scene.add(tetraMesh)
 
-  // Controls (для огляду на сторінці, до AR)
   controls = new OrbitControls(camera, renderer.domElement)
   controls.enableDamping = true
 
   // AR Button
   document.body.appendChild(
     ARButton.createButton(renderer, {
-      requiredFeatures: [], // для task1 hit-test не треба
+      requiredFeatures: [],
     })
   )
 
